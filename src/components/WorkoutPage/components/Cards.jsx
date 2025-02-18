@@ -26,7 +26,7 @@ setShowBookMark(isBookmarked);
            <img 
              src={item.image} 
              alt='' 
-             
+             loading='lazy'
              className={`object-center object-cover rounded-lg ${imgHeight}  ${imgWidth}  `} 
            />
          </div>
