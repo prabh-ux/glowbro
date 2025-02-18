@@ -79,14 +79,26 @@ const WorkoutDetailSP = ({ totalCal, handelSkip, hideVideo, additionlClass, setP
   const handelBookmark = (headingname) => {
     setBookMarked(true);
     const storedData = JSON.parse(localStorage.getItem("bookmarks")) || [];
+    const existingBookmarkIndex=storedData.findIndex(item=>item.headingname===headingname);
+    if(existingBookmarkIndex!==-1){
+  storedData.splice(existingBookmarkIndex,1);
+  setBookMarked(false);
 
-    storedData.unshift({ headingname });
+    }else{
+
+      storedData.unshift({ headingname });
+      setBookMarked(true);
+    }
+
+
+
+    
     localStorage.setItem("bookmarks", JSON.stringify(storedData));
 
   }
 
   return (
-    <div className="relative bg-[#EBEBEB] rounded-lg flex flex-col items-center lg:mx-[6rem] p-[2rem] gap-[2rem] additionlClass   ">
+    <div className="relative bg-[#EBEBEB] rounded-lg flex flex-col items-center   lg:mx-[6rem] p-[1rem] gap-[2rem] additionlClass   ">
       {/* {additionlClass ? <div className='flex flex-col justify-center items-center  gap-[1rem]'> <p className="text-[#80B918] text-xl  md:text-2xl lg:text-3xl font-playfairdisplay font-bold ">Calories Burned</p>
         <p className="text-[#80B918] text-xl  md:text-2xl lg:text-3xl font-playfairdisplay font-bold ">{parseFloat(totalCal.toFixed(3))}kcal</p></div>
         : []} */}

@@ -99,6 +99,11 @@ const handelSkip=()=>{
             
           )
           .slice(0, 21); // Limit results to 21 exercises
+          const BookMarks = JSON.parse(localStorage.getItem('bookmarks')) || [];
+          const BookMarksName = new Set(BookMarks.map((item) => item.headingname));
+  
+          // Sorting: Bookmarked items first
+          filteredData.sort((a, b) => BookMarksName.has(b.name) - BookMarksName.has(a.name));
   
         // Find current exercise index in the filtered list
         const currentIndex = filteredData.findIndex(

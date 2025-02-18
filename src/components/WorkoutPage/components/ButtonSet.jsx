@@ -20,7 +20,7 @@ const ButtonSet = ({ tips,handelTips, handelSkip, additionlClass, handelPause, h
       
       <button
         onClick={additionlClass ? () => { } : handleStartTimer}
-        className={`bg-black text-[#EBEBEB] p-[1rem] font-playfairdisplay font-bold rounded-lg w-fit h-fit`}
+        className={`bg-black text-[#EBEBEB] p-[0.8rem] font-playfairdisplay font-bold rounded-lg w-fit h-fit `}
       >
         {ButtonVal}
       </button>

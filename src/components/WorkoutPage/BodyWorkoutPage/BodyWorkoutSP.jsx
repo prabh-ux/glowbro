@@ -23,6 +23,14 @@ const BodyWorkoutSP = () => {
   const [calories, setCalories] = useState(0);
   const [currentExercise, setCurrentExercise] = useState(exercisename); // Preserve the current exercise name
 
+
+useEffect(() => {
+ console.log(exercisename);
+ 
+}, [exercisename]);
+
+
+
   const timervalue = [
     { t: hour, setter: setHour },
     { t: minutes, setter: setMinutes },
@@ -70,7 +78,7 @@ const BodyWorkoutSP = () => {
 
       if (!lastExercise) {
         navigate(`/workout/workoutlevel/${id}/bodyworkout/showbodyexe/${encodeURIComponent(currentExercise)}/${encodeURIComponent(bodymuscle)}/SP/Workoutfinish`, { 
-          state: { timerVal: totalTime, caloriesVal: calories } 
+          state: { timerVal: totalTime} 
         });
       } else {
         navigate(`/workout/workoutlevel/${id}/bodyworkout`);
