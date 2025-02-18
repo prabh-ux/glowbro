@@ -1,27 +1,28 @@
-import React, { useEffect, useState } from 'react'
-import WorkoutDetailSP from '../WorkoutDetailSP'
-import { useNavigate, useParams } from 'react-router-dom'
+import React, { useEffect, useState } from 'react';
+import WorkoutDetailSP from '../WorkoutDetailSP';
+import { useNavigate, useParams } from 'react-router-dom';
 import { fetchData } from '../../accessdata/fetch';
 import PopUp from '../components/PopUp';
 import WorkoutFinish from '../WorkoutFinish';
 
-
 const BodyWorkoutSP = () => {
   const navigate = useNavigate();
-  const {bodymuscle, exercisename, id } = useParams();
+  const { bodymuscle, exercisename, id } = useParams();
   const [instruction, setInstruction] = useState([]);
   const [exerciseImage, setExerciseImage] = useState([]);
   const [popUpActive, setPopUpActive] = useState(false);
   const [hour, setHour] = useState(0);
   const [minutes, setMinutes] = useState(10);
   const [second, setSeconds] = useState(0);
-  const [ButtonVal, setButtonVal] = useState("Start Now");
+  const [ButtonVal, setButtonVal] = useState('Start Now');
   const [timeRunning, setTimeRunning] = useState(false);
   const [remainingTime, setRemainingTime] = useState(null);
   const [pause, setPause] = useState(true);
-const [totalTime,setTotalTime]=useState(0);
-  const [lastExercise,setLastExercise]=useState(false);
-const [calories,setCalories]=useState(0);
+  const [totalTime, setTotalTime] = useState(0);
+  const [lastExercise, setLastExercise] = useState(false);
+  const [calories, setCalories] = useState(0);
+  const [currentExercise, setCurrentExercise] = useState(exercisename); // Preserve the current exercise name
+
   const timervalue = [
     { t: hour, setter: setHour },
     { t: minutes, setter: setMinutes },
@@ -38,8 +39,6 @@ const [calories,setCalories]=useState(0);
   };
 
   const startTimer = (hour, minutes, second) => {
-
-
     setPopUpActive(false);
     setButtonVal(`${hour} : ${minutes} : ${second}`);
     const totalSec = hour * 3600 + minutes * 60 + second;
@@ -56,24 +55,21 @@ const [calories,setCalories]=useState(0);
           const hrs = Math.floor(newTime / 3600);
           const mins = Math.floor((newTime % 3600) / 60);
           const secs = newTime % 60;
-  
+
           setButtonVal(
-            `${String(hrs).padStart(2, "0")} : ${String(mins).padStart(2, "0")} : ${String(secs).padStart(2, "0")}`
+            `${String(hrs).padStart(2, '0')} : ${String(mins).padStart(2, '0')} : ${String(secs).padStart(2, '0')}`
           );
           return newTime;
         });
       }, 1000);
-  
+
       return () => clearTimeout(timer);
-    } 
-    
-    // 🚀 FIX: Check if timer was started before navigating
-    else if (remainingTime === 0 && totalTime > 0) {  
+    } else if (remainingTime === 0 && totalTime > 0) {
       setTimeRunning(false);
-      setButtonVal("Start Now");
-  
+      setButtonVal('Start Now');
+
       if (!lastExercise) {
-        navigate(`/workout/workoutlevel/${id}/bodyworkout/showbodyexe/${encodeURIComponent(exercisename)}/${encodeURIComponent(bodymuscle)}/SP/Workoutfinish`, { 
+        navigate(`/workout/workoutlevel/${id}/bodyworkout/showbodyexe/${encodeURIComponent(currentExercise)}/${encodeURIComponent(bodymuscle)}/SP/Workoutfinish`, { 
           state: { timerVal: totalTime, caloriesVal: calories } 
         });
       } else {
@@ -81,7 +77,6 @@ const [calories,setCalories]=useState(0);
       }
     }
   }, [remainingTime, timeRunning, pause]);
-  
 
   const handleChange = (index, e) => {
     const parsedValue = parseInt(e.target.value);
@@ -90,7 +85,7 @@ const [calories,setCalories]=useState(0);
       if (parsedValue >= 0 && parsedValue <= 60) {
         timervalue[index].setter(parsedValue);
       } else {
-        e.target.value = "";
+        e.target.value = '';
       }
     }
   };
@@ -101,48 +96,44 @@ const [calories,setCalories]=useState(0);
         const data = await fetchData();
 
         const filteredData = data
-        .filter(
-          (item) =>
-            item.primaryMuscles[0] === bodymuscle&&item.equipment===id
-        )
-        .slice(0, 21);
+          .filter(
+            (item) =>
+              item.primaryMuscles[0] === bodymuscle && item.equipment === id
+          )
+          .slice(0, 21);
 
-        const BookMarks=JSON.parse(localStorage.getItem("bookmarks"))||[];
+        const BookMarks = JSON.parse(localStorage.getItem('bookmarks')) || [];
         const BookMarksName = new Set(BookMarks.map((item) => item.headingname));
 
-      // Sorting: Bookmarked items first
-      filteredData.sort((a, b) => BookMarksName.has(b.name) - BookMarksName.has(a.name));
-      const exercise = filteredData.find((item) => item.name === exercisename);
-      
-       setCalories(exercise.caloriesBurnedPerMinute) ;
+        // Sorting: Bookmarked items first
+        filteredData.sort((a, b) => BookMarksName.has(b.name) - BookMarksName.has(a.name));
 
+        const exercise = filteredData.find((item) => item.name === currentExercise);
 
-        const currentIndex = filteredData.findIndex(
-          (item) => item.name === exercisename
-        );
-  
-        if (currentIndex === filteredData.length - 1 && filteredData.length > 0) {
-          setLastExercise(true);
-        }
         if (exercise) {
+          setCalories(exercise.caloriesBurnedPerMinute);
           setInstruction(exercise.instructions || []);
-          const imgUrls =exercise.images?.map((item) => `/images/${item}`) ||
-            [];
-          setExerciseImage(imgUrls);
+          setExerciseImage(exercise.images?.map((item) => `/images/${item}`) || []);
+
+          // Determine the current index
+          const currentIndex = filteredData.findIndex(
+            (item) => item.name === currentExercise
+          );
+
+          // Determine if this is the last exercise in the list
+          setLastExercise(currentIndex === filteredData.length - 1);
         }
+
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error('Error fetching data:', error);
       }
     };
 
     getData();
-  }, [exercisename,bodymuscle,id]);
-
-
-
+  }, [bodymuscle, id, currentExercise]); // depend on currentExercise
 
   return (
-    <div  className='p-[1rem] overflow-y-hidden overflow-x-hidden'>
+    <div className='p-[1rem] overflow-y-hidden overflow-x-hidden'>
       <WorkoutDetailSP
         setPause={setPause}
         pause={pause}
@@ -151,11 +142,10 @@ const [calories,setCalories]=useState(0);
         setPopUpActive={setPopUpActive}
         exerciseImage={exerciseImage}
         ButtonVal={ButtonVal}
-        headingname={exercisename}
-        secondheadingname={"INSTRUCTION"}
+        headingname={currentExercise} // Use currentExercise here
+        secondheadingname={'INSTRUCTION'}
         instructions={instruction}
-        mainBtn={"Start Now"}
-      
+        mainBtn={'Start Now'}
       />
       {popUpActive && (
         <PopUp
@@ -166,11 +156,8 @@ const [calories,setCalories]=useState(0);
           setPopUpActive={setPopUpActive}
         />
       )}
-      <div className="hidden">
-        <WorkoutFinish
-        totalTime={totalTime}
-          
-        />
+      <div className='hidden'>
+        <WorkoutFinish totalTime={totalTime} />
       </div>
     </div>
   );
