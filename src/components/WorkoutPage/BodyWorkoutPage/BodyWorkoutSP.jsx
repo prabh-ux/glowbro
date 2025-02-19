@@ -84,8 +84,10 @@ useEffect(() => {
     } else if (remainingTime === 0 && totalTime > 0) {
       setTimeRunning(false);
       setButtonVal('Start Now');
-
-      if (!lastExercise) {
+if(myState){
+  navigate(`/`);
+}
+    else if (!lastExercise) {
         navigate(`/workout/workoutlevel/${id}/bodyworkout/showbodyexe/${encodeURIComponent(currentExercise)}/${encodeURIComponent(bodymuscle)}/SP/Workoutfinish`, { 
           state: { timerVal: totalTime} 
         });

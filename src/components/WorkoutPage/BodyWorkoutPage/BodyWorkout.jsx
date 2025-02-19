@@ -5,21 +5,20 @@ import { useParams } from 'react-router-dom';
 import { motion } from "framer-motion";
 import { useMemo } from 'react';
 
-const BodyWorkout = ({removeWorkout}) => {
+const BodyWorkout = ({}) => {
   
      const {id}=useParams();
-     
     // remove workout
-     removeWorkout.forEach((muscle, index) => console.log(`${index + 1}. ${muscle}`));
+    
 // 
 
-     const updatedBW = useMemo(() => {
-      return BodyWorkoutDetails.filter(item => !removeWorkout.includes(item.name))
-        .map(item => ({
-          ...item,
-          link: `/workout/workoutlevel/${id}/bodyworkout/showbodyexe/${item.name}`
-        }));
-    }, [id, removeWorkout]); 
+const updatedBW = useMemo(() => {
+  return BodyWorkoutDetails.map(item => ({
+    ...item,
+    link: `/workout/workoutlevel/${id}/bodyworkout/showbodyexe/${item.name}`
+  }));
+}, [id]); // Depend on id
+
 
    console.log(id);
     

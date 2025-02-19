@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 
 import Carausal from './components/Carausal';
-import bodyWeight from '../images/workoutForm/BodyWeight.jpg'
-import Weight from '../images/workoutForm/Weight.jpg'
-import Cardio from '../images/workoutForm/Cardio.jpg'
+import bodyWeight from '../images/workoutForm/BodyWeight.webp'
+import Weight from '../images/workoutForm/Weight.webp'
+import Cardio from '../images/workoutForm/Cardio.webp'
 
 const WorkoutLevelPage = () => {
   
