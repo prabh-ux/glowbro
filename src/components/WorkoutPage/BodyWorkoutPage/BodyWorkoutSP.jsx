@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import WorkoutDetailSP from '../WorkoutDetailSP';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { fetchData } from '../../accessdata/fetch';
 import PopUp from '../components/PopUp';
 import WorkoutFinish from '../WorkoutFinish';
@@ -30,12 +30,21 @@ useEffect(() => {
 }, [exercisename]);
 
 
-
   const timervalue = [
     { t: hour, setter: setHour },
     { t: minutes, setter: setMinutes },
     { t: second, setter: setSeconds },
   ];
+
+  const location = useLocation();
+const myState = location.state?.myState; 
+
+useEffect(() => {
+  if (myState) {
+    console.log(myState);
+    setCurrentExercise(exercisename);
+  }
+}, [location.state]); 
 
   const handelPause = () => {
     if (timeRunning) {

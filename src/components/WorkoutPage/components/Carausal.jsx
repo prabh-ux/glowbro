@@ -6,7 +6,11 @@ import { motion } from "framer-motion";
 const Carausal = ({options}) => {
     const [activeIndex, setActiveIndex] = useState(0);
 
-
+    const getClassName = (index) => {
+      if (index === activeIndex) return "scale-90 opacity-100 z-20";
+      if (index === activeIndex - 1 || index === activeIndex + 1) return "scale-75 opacity-40 w-40 md:w-64 lg:w-64";
+      return "hidden";
+    };
     const handleDragEnd = (event, info) => {
       const swipeThreshold = 50; // Minimum swipe distance to register a slide
   
@@ -22,14 +26,16 @@ const Carausal = ({options}) => {
     drag="x"
     dragConstraints={{left:0,right:0}}
     onDragEnd={handleDragEnd}
-    
+    transition={{ ease: "easeOut", duration: 0.3 }}
+
     >
 
     {options.map((item, index) => (
         <div
             key={index}
            onClick={()=>setActiveIndex(index)}
-           className={`cursor-pointer transform transition-all duration-200 ease-in-out  grayscale-75
+           
+           className={`cursor-pointer transform transition-all duration-200 ease-in-out  grayscale-75 ${getClassName(index)}
              ${index===activeIndex?'scale-90 opacity-100 z-20 ':(index===activeIndex-1||index===activeIndex+1?"scale-75 opacity-40 w-40 md:w-64 lg:w-64 ":"hidden" )} mx-1 `}    >
             <Cards item={item} activeIndex={activeIndex} index={index} />
         </div>

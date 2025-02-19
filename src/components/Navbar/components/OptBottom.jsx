@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 
 const OptBottom = ({ options }) => {
   return (
-    <div className="  w-full bg-white h-fit sticky z-20 bottom-0 flex justify-center gap-6 lg:hidden px-[2rem] py-[0.4rem] ">
+    <div className="  w-full bg-white h-fit sticky z-20 bottom-0 flex justify-center md:justify-around gap-6 lg:hidden px-[2rem] py-[0.4rem] ">
       {options.map((item, index) => (
         <NavLink
           to={item.link}
