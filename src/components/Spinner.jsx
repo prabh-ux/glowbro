@@ -43,7 +43,7 @@ const Spinner = ({setShowWheel}) => {
 
 
   return (
-    <div ref={spinnerRef} onClick={(e)=>{if(spinnerRef.current===e.target){setShowWheel(false)}}} className=" fixed inset-0  flex justify-center items-center ">
+    <div ref={spinnerRef} onClick={(e)=>{if(spinnerRef.current===e.target){setShowWheel(false)}}} className=" fixed inset-0  flex justify-center items-center  bg-black/35 ">
       <div className="relative flex flex-col justify-center items-center">
         
      
@@ -62,8 +62,8 @@ const Spinner = ({setShowWheel}) => {
             )}
 
 {exercises?.[challengeExe]?.images?.[0] ? 
-           (<Link className=' cursor-pointer'  to={`/workout/workoutlevel/${exercises[challengeExe].equipment}/bodyworkout/showbodyexe/${encodeURIComponent(exercises[challengeExe].name)}/${exercises[challengeExe].primaryMuscles}/SP`}
-           state={{ myState: true }}   > <button onClick={()=>setShowWheel(false)} className='text-black bg-white font-playfairdisplay rounded-md p-[0.8rem] font-bold' > Do the Exercise</button></Link> 
+           (<Link  to={`/workout/workoutlevel/${exercises[challengeExe].equipment}/bodyworkout/showbodyexe/${encodeURIComponent(exercises[challengeExe].name)}/${exercises[challengeExe].primaryMuscles}/SP`}
+           state={{ myState: true }}   > <button onClick={()=>setShowWheel(false)} className='text-black bg-white font-playfairdisplay rounded-md p-[0.8rem] font-bold cursor-pointer' > Do the Exercise</button></Link> 
 ):(<p>loading</p>)}
           </div>
         ) : (

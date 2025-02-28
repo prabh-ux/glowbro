@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ImFire, ImCross } from "react-icons/im";
 import { GiFluffyWing } from "react-icons/gi";
 
@@ -65,8 +65,9 @@ else{
 }
   }, []);
 
+  
   return (
-    <div className="fixed inset-0 flex justify-center items-center ">
+    <div  className="fixed inset-0 flex justify-center items-center bg-black/35 ">
       <div className="relative flex flex-col justify-center items-center bg-[#EBEBEB] p-[1rem] gap-[1rem] rounded-lg">
         <button onClick={() => setShowStreak(false)} className="  text-sm md:text-lg lg:text-xl ml-auto ">
           <ImCross className="text-red-600 " />

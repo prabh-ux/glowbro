@@ -15,7 +15,7 @@ const PopUp = ({setPause,setPopUpActive,handleChange,startTimer,timervalue}) => 
 
   return (
   
-    <div ref={PopRef} onClick={closePopUp} className='fixed inset-0    flex items-center justify-center '>
+    <div ref={PopRef} onClick={closePopUp} className='fixed inset-0    flex items-center justify-center  bg-black/35 '>
         <div className='bg-[#EBEBEB] flex flex-col justify-between text-center  p-[1rem]  rounded-lg gap-[1rem] text-xl  md:text-2xl lg:text-3xl '>
           <button onClick={()=>setPopUpActive(false)}>
           <ImCross className='ml-auto  text-black' />

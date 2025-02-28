@@ -66,6 +66,12 @@ const WorkoutDetailSP = ({ totalCal, handelSkip, hideVideo, additionlClass, setP
   };
   
 
+useEffect(() => {
+
+  return () => {
+    window.speechSynthesis.cancel();
+  }
+}, [])
 
 
   useEffect(() => {

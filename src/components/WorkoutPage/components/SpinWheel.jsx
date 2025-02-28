@@ -36,7 +36,7 @@ const SpinWheel = ({ exercises,setChallangeExe ,setIsHidden,setShowWheel}) => {
 
     return (
         <>
-            <div  className="relative   w-fit h-fit flex flex-col justify-center items-center">
+            <div  className="relative   w-fit h-fit flex flex-col justify-center items-center ">
                <button className='ml-auto  text-red-600 text-lg' onClick={()=>setShowWheel(false)}><ImCross  /></button> 
                 <Wheel
                     mustStartSpinning={mustSpin}
